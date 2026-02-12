@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+* {
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+html,
+html[lang="ar"],
+body {
+    direction: rtl !important;
+    font-family: 'Tajawal', sans-serif !important;
+}
+
+/* RTL Support for Filament */
+.fi-main,
+.fi-main-content {
+    direction: rtl !important;
+}
+
+.fi-sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+.fi-sidebar-nav {
+    direction: rtl !important;
+}
+
+/* RTL adjustments for tables */
+.fi-ta-table {
+    direction: rtl;
+}
+
+/* RTL adjustments for forms */
+.fi-fo-field-wrp {
+    direction: rtl;
+}
+
+/* تحسين مظهر الجداول */
+.fi-ta-table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.fi-ta-table-row:hover {
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* تحسين مظهر الأزرار */
+.fi-btn {
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.fi-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* تحسين مظهر Dashboard Widgets */
+.fi-wi-stats-overview-stat {
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+}
+
+/* تحسين مظهر النماذج */
+.fi-fo-field-wrp {
+    border-radius: 0.5rem;
+}
+
+/* تحسين مظهر Modals و SlideOvers */
+.fi-modal {
+    border-radius: 1rem;
+}
+
+.fi-slide-over {
+    border-radius: 1rem 0 0 1rem;
+}
+
+/* تحسين التباعد */
+.fi-section {
+    padding: 1.5rem;
+}
+
+/* إزالة border من Section وإضافة rounded corners */
+.fi-section:has(.rounded-xl) {
+    border: none !important;
+    border-radius: 0.75rem !important;
+}
+
+/* إزالة border من Section التي تحتوي على خلفية ملونة */
+.fi-section[class*="bg-green-100"],
+.fi-section[class*="bg-red-100"],
+.fi-section[class*="bg-yellow-100"],
+.fi-section[class*="bg-gray-100"] {
+    border: none !important;
+    border-radius: 0.75rem !important;
+}
+
+/* تحسين الألوان */
+.fi-primary-50 {
+    background-color: #eff6ff;
+}
+
+.fi-primary-100 {
+    background-color: #dbeafe;
+}
+
+.fi-primary-600 {
+    background-color: #2563eb;
+}
+
+.fi-primary-700 {
+    background-color: #1d4ed8;
+}
+
+/* RTL Support for Modals and SlideOvers */
+.fi-modal-content,
+.fi-slide-over-content {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.fi-modal-header,
+.fi-slide-over-header {
+    direction: rtl !important;
+}
+
+.fi-modal-footer,
+.fi-slide-over-footer {
+    direction: rtl !important;
+    flex-direction: row-reverse !important;
+}
+
+/* Fix Pagination */
+.fi-ta-pagination {
+    direction: rtl !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.fi-ta-pagination-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix filter dropdowns */
+.fi-ta-filters-trigger {
+    direction: rtl !important;
+}
+
+.fi-dropdown-panel {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+/* Fix Switch/Toggle buttons */
+.fi-toggle {
+    direction: rtl !important;
+}
+
+.fi-toggle-input:checked + .fi-toggle-track {
+    background-color: #1e40af !important;
+}
+
+.fi-toggle-track {
+    transition: all 0.2s ease;
+}
+
+/* Fix table filters visibility */
+.fi-ta-filters {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.fi-ta-filters-trigger {
+    display: inline-flex !important;
+}
+
+/* Fix pagination icon position */
+.fi-ta-pagination-item svg {
+    position: relative;
+    top: 0;
+}
+
+/* تحسين مظهر حالات المراجعة */
+.fi-in-entry > div[style*="background-color"] {
+    border: 2px solid #d1d5db !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
