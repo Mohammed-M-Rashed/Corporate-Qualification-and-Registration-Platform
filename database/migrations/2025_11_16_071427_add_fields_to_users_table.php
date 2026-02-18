@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('work_document')->nullable();
-            $table->foreignId('committee_id')->nullable()->constrained()->onDelete('set null');
+            $table->enum('member_type', ['legal', 'technical', 'financial'])
+                ->nullable()
+                ->after('email_verified_at')
+                ->comment('نوع العضو: قانوني، فني، أو مالي');
+            $table->foreignId('committee_id')->nullable()->after('member_type')->constrained()->onDelete('set null');
         });
     }
 
@@ -24,7 +27,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['committee_id']);
-            $table->dropColumn(['work_document', 'committee_id']);
+            $table->dropColumn(['member_type', 'committee_id']);
         });
     }
 };

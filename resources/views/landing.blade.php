@@ -12,133 +12,85 @@
         * {
             font-family: 'Tajawal', sans-serif;
         }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav-glass shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold text-blue-600 flex items-center gap-3">
-                    @php
-                        $logoPath = \App\Models\Setting::where('key', 'system_logo')->value('value');
-                        $logoUrl = $logoPath ? asset('storage/' . $logoPath) : null;
-                    @endphp
-                    @if($logoUrl)
-                        <img src="{{ $logoUrl }}" alt="شعار المؤسسة" class="h-12 w-auto">
-                    @else
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center shadow-lg">
-                            <span class="text-white font-bold text-lg">NOC</span>
-                        </div>
-                    @endif
-                    <span class="hidden sm:inline">المؤسسة الوطنية للنفط</span>
-                </div>
-                <div class="hidden md:flex space-x-4 space-x-reverse items-center">
-                    <a href="#about" class="text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">من نحن</a>
-                    <a href="#features" class="text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">المميزات</a>
-                    <a href="#faq" class="text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">الأسئلة الشائعة</a>
-                    <a href="#register" class="btn-primary text-white">تسجيل شركة</a>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden text-blue-600 p-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-            <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
-                <a href="#about" class="block text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">من نحن</a>
-                <a href="#features" class="block text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">المميزات</a>
-                <a href="#faq" class="block text-blue-600 hover:text-blue-700 transition px-4 py-2 rounded-lg hover:bg-blue-50">الأسئلة الشائعة</a>
-                <a href="#register" class="block btn-primary text-white text-center">تسجيل شركة</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-gradient py-32 text-white relative">
-        <div class="hero-content container mx-auto px-6 text-center">
-            <div class="fade-in mb-8">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg leading-tight">منصة تأهيل و تسجيل أدوات التنفيذ المحلية</h1>
-                <p class="text-xl md:text-2xl mb-12 text-blue-100 max-w-3xl mx-auto leading-relaxed">منصة متكاملة لتأهيل وتسجيل الشركات والمقاولين المحليين</p>
-            </div>
-            <div class="flex flex-col md:flex-row justify-center gap-4 fade-in-up">
-                <a href="#register" class="btn-primary text-white inline-block">
-                    تسجيل شركة جديدة
-                </a>
-                <a href="#inquiry" class="btn-secondary text-white inline-block">
-                    استعلام عن طلب
-                </a>
-            </div>
-        </div>
-    </section>
+    @include('landing.sections.nav')
+    @include('landing.sections.hero')
 
     <!-- Features Section -->
-    <section id="features" class="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section id="features" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-16 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">مميزات المنصة</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">منصة متكاملة توفر تجربة سلسة وآمنة لتأهيل الشركات</p>
+            <div class="text-center mb-14">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[#0a1628]">مميزات المنصة</h2>
+                <p class="text-[#64748b]">منصة متكاملة توفر تجربة سلسة وآمنة لتأهيل الشركات</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="feature-card fade-in-up">
-                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-white text-xl font-bold">1</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-3 text-gray-900">تسجيل سهل</h3>
-                    <p class="text-gray-600 leading-relaxed">منصة تسجيل مبسطة على خطوات واضحة وسهلة مع دعم كامل للوثائق</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="feature-card">
+                    <svg class="w-7 h-7 text-[#1a6fb5] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold mb-2 text-[#0a1628]">تسجيل سهل</h3>
+                    <p class="text-[#64748b] text-sm leading-relaxed">منصة تسجيل مبسطة على خطوات واضحة وسهلة مع دعم كامل للوثائق</p>
                 </div>
-                <div class="feature-card fade-in-up">
-                    <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-white text-xl font-bold">2</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-3 text-gray-900">متابعة دقيقة</h3>
-                    <p class="text-gray-600 leading-relaxed">متابعة حالة الطلب في أي وقت وبسهولة مع تحديثات فورية</p>
+                <div class="feature-card">
+                    <svg class="w-7 h-7 text-[#1a6fb5] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold mb-2 text-[#0a1628]">متابعة دقيقة</h3>
+                    <p class="text-[#64748b] text-sm leading-relaxed">متابعة حالة الطلب في أي وقت وبسهولة مع تحديثات فورية</p>
                 </div>
-                <div class="feature-card fade-in-up">
-                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-white text-xl font-bold">3</span>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-3 text-gray-900">آمن ومحمي</h3>
-                    <p class="text-gray-600 leading-relaxed">حماية كاملة للبيانات والوثائق مع تشفير متقدم</p>
+                <div class="feature-card">
+                    <svg class="w-7 h-7 text-[#1a6fb5] mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                    </svg>
+                    <h3 class="text-lg font-bold mb-2 text-[#0a1628]">آمن ومحمي</h3>
+                    <p class="text-[#64748b] text-sm leading-relaxed">حماية كاملة للبيانات والوثائق مع تشفير متقدم</p>
                 </div>
             </div>
         </div>
     </section>
 
+    @include('landing.sections.how-it-works')
+
     <!-- About Section -->
-    <section id="about" class="py-24 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80'); background-size: cover; background-position: center;"></div>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/90 via-blue-700/90 to-blue-800/90"></div>
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="max-w-4xl mx-auto text-center fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8">عن المؤسسة الوطنية للنفط</h2>
-                <div class="space-y-6 text-lg leading-relaxed">
-                    <p>
-                        المؤسسة الوطنية للنفط هي المؤسسة الرائدة في مجال النفط والغاز في ليبيا. 
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-5xl mx-auto md:flex md:items-center md:gap-16">
+                <div class="md:flex-1 mb-10 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-5 text-[#0a1628]">عن المؤسسة الوطنية للنفط</h2>
+                    <p class="text-[#64748b] leading-relaxed mb-4">
+                        المؤسسة الوطنية للنفط هي المؤسسة الرائدة في مجال النفط والغاز في ليبيا.
                         تقود المؤسسة استكشاف النفط والغاز مع احتياطيات واسعة، بما في ذلك الغاز الطبيعي غير المستغل.
                     </p>
-                    <p>
-                        وتمكّن المؤسسة الوطنية للنفط من مستقبل مستدام وذلك من خلال اعتماد الطاقة المتجددة، 
+                    <p class="text-[#64748b] leading-relaxed">
+                        وتمكّن المؤسسة الوطنية للنفط من مستقبل مستدام وذلك من خلال اعتماد الطاقة المتجددة،
                         ملتزمة بالمسؤولية البيئية والاستدامة.
                     </p>
                 </div>
-                <div class="mt-12">
-                    <a href="https://noc.ly/" target="_blank" class="btn-primary text-white inline-block">
-                        زيارة الموقع الرسمي
-                    </a>
+                <div class="md:flex-shrink-0 flex gap-6 justify-center">
+                    <div class="stat-circle">
+                        <span class="text-2xl font-bold text-[#0a1628]">1.4</span>
+                        <span class="text-xs text-[#64748b]">م/يوم</span>
+                    </div>
+                    <div class="stat-circle">
+                        <span class="text-2xl font-bold text-[#0a1628]">2-3</span>
+                        <span class="text-xs text-[#64748b]">م/يوم مستقبلي</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    @include('landing.sections.stats')
+
     <!-- Registration Section -->
-    <section id="register" class="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section id="register" class="py-20 bg-[#f5f6f8]">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">تسجيل شركة جديدة</h2>
-                <p class="text-xl text-gray-600">املأ جميع البيانات المطلوبة بدقة</p>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[#0a1628]">تسجيل شركة جديدة</h2>
+                <p class="text-[#64748b]">املأ جميع البيانات المطلوبة بدقة</p>
             </div>
             <div class="max-w-6xl mx-auto w-full">
                 @include('company-registration-form')
@@ -147,97 +99,71 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-24 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">
+    <section id="faq" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4">الأسئلة الشائعة</h2>
-                <p class="text-xl text-blue-100">إجابات على الأسئلة الأكثر شيوعاً</p>
+            <div class="text-center mb-14">
+                <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[#0a1628]">الأسئلة الشائعة</h2>
+                <p class="text-[#64748b]">إجابات على الأسئلة الأكثر شيوعاً</p>
             </div>
-            <div class="max-w-3xl mx-auto space-y-4" id="faq-container">
+            <div class="max-w-3xl mx-auto" id="faq-container">
                 <!-- FAQs will be loaded via JavaScript -->
             </div>
         </div>
     </section>
 
     <!-- Inquiry Section -->
-    <section id="inquiry" class="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section id="inquiry" class="py-20 bg-[#f5f6f8]">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">استعلام عن حالة الطلب</h2>
-                <p class="text-xl text-gray-600">تابع حالة طلبك بسهولة باستخدام رقم الطلب</p>
-            </div>
-            <div class="max-w-md mx-auto fade-in-up">
-                <div class="feature-card bg-white p-8 shadow-2xl">
-                    <form id="inquiry-form" class="space-y-6">
+            <div class="max-w-4xl mx-auto md:flex md:items-center md:gap-12">
+                <div class="md:flex-1 mb-8 md:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3 text-[#0a1628]">استعلام عن حالة الطلب</h2>
+                    <p class="text-[#64748b] leading-relaxed">تابع حالة طلبك بسهولة باستخدام رقم الطلب الذي حصلت عليه عند التسجيل.</p>
+                </div>
+                <div class="md:flex-1">
+                    <form id="inquiry-form" class="space-y-4">
                         @csrf
                         <div>
-                            <label class="block text-gray-700 mb-3 font-semibold text-lg">رقم الطلب</label>
-                            <input type="text" name="request_number" id="request_number" 
+                            <label class="block text-[#1e293b] mb-2 font-medium text-sm">رقم الطلب</label>
+                            <input type="text" name="request_number" id="request_number"
                                    class="form-input w-full"
                                    placeholder="أدخل رقم الطلب">
                         </div>
-                        <button type="submit" class="w-full btn-primary text-white">
+                        <button type="submit" class="w-full btn-primary text-white py-3">
                             استعلام
                         </button>
                     </form>
-                    <div id="inquiry-result" class="mt-6"></div>
+                    <div id="inquiry-result" class="mt-4"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        @php
-                            $logoPath = \App\Models\Setting::where('key', 'system_logo')->value('value');
-                            $logoUrl = $logoPath ? asset('storage/' . $logoPath) : null;
-                        @endphp
-                        @if($logoUrl)
-                            <img src="{{ $logoUrl }}" alt="شعار المؤسسة" class="h-12 w-auto">
-                        @else
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center">
-                                <span class="text-white font-bold">NOC</span>
-                            </div>
-                        @endif
-                        <span class="text-xl font-bold">المؤسسة الوطنية للنفط</span>
-                    </div>
-                    <p class="text-blue-300 text-sm">منصة متكاملة لتأهيل الشركات والمقاولين المحليين</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">روابط سريعة</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#about" class="text-blue-300 hover:text-blue-100 transition">من نحن</a></li>
-                        <li><a href="#features" class="text-blue-300 hover:text-blue-100 transition">المميزات</a></li>
-                        <li><a href="#faq" class="text-blue-300 hover:text-blue-100 transition">الأسئلة الشائعة</a></li>
-                        <li><a href="#register" class="text-blue-300 hover:text-blue-100 transition">تسجيل شركة</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">معلومات الاتصال</h3>
-                    <ul class="space-y-2 text-blue-300 text-sm">
-                        <li>طرابلس، ليبيا</li>
-                        <li><a href="https://noc.ly/" target="_blank" class="hover:text-blue-100 transition">الموقع الرسمي</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">تابعنا</h3>
-                    <p class="text-blue-300 text-sm mb-4">تابع آخر الأخبار والتحديثات</p>
-                    <a href="https://noc.ly/" target="_blank" class="btn-primary text-white inline-block text-sm">
-                        زيارة الموقع
-                    </a>
-                </div>
-            </div>
-            <div class="border-t border-blue-800 pt-8 text-center">
-                <p class="text-blue-300">حقوق النشر محفوظة © 2025 المؤسسة الوطنية للنفط</p>
-            </div>
-        </div>
-    </footer>
+    @include('landing.sections.support')
+
+    @include('landing.sections.footer')
+
+    @php
+        $loadingGifPath = \App\Models\Setting::where('key', 'loading_gif')->value('value');
+        $loadingGifUrl = $loadingGifPath ? asset($loadingGifPath) : null;
+    @endphp
+    <div x-data
+         x-show="$store.loading"
+         x-cloak
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30"
+         style="display: none;">
+        <x-loading-box :gif-url="$loadingGifUrl" />
+    </div>
 
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('loading', false);
+        });
         function registrationForm() {
             return {
                 currentStep: 1,
@@ -382,6 +308,7 @@
                     }
                     
                     this.isSubmitting = true;
+                    if (window.Alpine?.store) Alpine.store('loading', true);
                     
                     const endpoint = `/register/step${step}`;
                     const formData = new FormData();
@@ -474,6 +401,7 @@
                         }, 100);
                     } finally {
                         this.isSubmitting = false;
+                        if (window.Alpine?.store) Alpine.store('loading', false);
                     }
                 },
 
@@ -577,9 +505,13 @@
                     }
                 },
 
-                init() {
-                    this.loadActivities();
-                    this.loadCities();
+                async init() {
+                    if (window.Alpine?.store) Alpine.store('loading', true);
+                    try {
+                        await Promise.all([this.loadActivities(), this.loadCities()]);
+                    } finally {
+                        if (window.Alpine?.store) Alpine.store('loading', false);
+                    }
                 },
 
                 resetForm() {
@@ -639,6 +571,7 @@
                     }
                     
                     this.isSubmitting = true;
+                    if (window.Alpine?.store) Alpine.store('loading', true);
                     
                     // Validate all steps before final submission
                     let allValid = true;
@@ -782,6 +715,7 @@
                         }, 100);
                     } finally {
                         this.isSubmitting = false;
+                        if (window.Alpine?.store) Alpine.store('loading', false);
                     }
                 }
             }
@@ -795,14 +729,14 @@
                 if (data && data.length > 0) {
                     data.forEach((faq, index) => {
                         const faqItem = document.createElement('div');
-                        faqItem.className = 'faq-item';
+                        faqItem.className = 'faq-item fade-in-up';
                         faqItem.innerHTML = `
                             <div class="faq-question">
                                 <span>${faq.question}</span>
                                 <span class="faq-icon">▼</span>
                             </div>
                             <div class="faq-answer">
-                                <p class="text-blue-100 leading-relaxed">${faq.answer}</p>
+                                <p class="text-[#64748b] leading-relaxed">${faq.answer}</p>
                             </div>
                         `;
                         container.appendChild(faqItem);
@@ -812,7 +746,7 @@
                         initFAQAccordion();
                     }, 100);
                 } else {
-                    container.innerHTML = '<p class="text-center text-blue-100">لا توجد أسئلة شائعة متاحة حالياً</p>';
+                    container.innerHTML = '<p class="text-center text-[#64748b]">لا توجد أسئلة شائعة متاحة حالياً</p>';
                 }
             })
             .catch(error => {

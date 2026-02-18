@@ -14,17 +14,19 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('registration_number')->unique();
+            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
             $table->string('commercial_register_number')->unique()->nullable();
             $table->date('commercial_register_start_date')->nullable();
             $table->date('commercial_register_end_date')->nullable();
-            $table->date('commercial_register_date')->nullable(); // Extracted from PDF
+            $table->date('commercial_register_date')->nullable();
             $table->string('email')->unique();
             $table->string('phone');
             $table->text('address');
             $table->boolean('is_qualified')->default(false);
             $table->date('qualification_expiry_date')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_agent')->default(false);
+            $table->string('agent_document_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

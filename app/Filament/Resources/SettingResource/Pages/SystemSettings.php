@@ -87,7 +87,21 @@ class SystemSettings extends Page implements HasForms
                         Forms\Components\FileUpload::make('system_logo')
                             ->label('شعار النظام')
                             ->image()
+                            ->disk('public_settings')
                             ->directory('settings')
+                            ->visibility('public')
+                            ->getUploadedFileUsing(static function ($component, string $file): ?array {
+                                $path = str_starts_with($file, 'settings/') ? $file : 'settings/' . $file;
+                                if (! is_file(public_path($path))) {
+                                    return null;
+                                }
+                                return [
+                                    'name' => basename($path),
+                                    'size' => (int) filesize(public_path($path)),
+                                    'type' => mime_content_type(public_path($path)) ?: 'image/png',
+                                    'url' => asset($path),
+                                ];
+                            })
                             ->columnSpanFull(),
                         Forms\Components\ColorPicker::make('primary_color')
                             ->label('اللون الأساسي')
@@ -95,7 +109,21 @@ class SystemSettings extends Page implements HasForms
                         Forms\Components\FileUpload::make('loading_gif')
                             ->label('صورة التحميل (صورة متحركة)')
                             ->acceptedFileTypes(['image/gif'])
+                            ->disk('public_settings')
                             ->directory('settings')
+                            ->visibility('public')
+                            ->getUploadedFileUsing(static function ($component, string $file): ?array {
+                                $path = str_starts_with($file, 'settings/') ? $file : 'settings/' . $file;
+                                if (! is_file(public_path($path))) {
+                                    return null;
+                                }
+                                return [
+                                    'name' => basename($path),
+                                    'size' => (int) filesize(public_path($path)),
+                                    'type' => mime_content_type(public_path($path)) ?: 'image/gif',
+                                    'url' => asset($path),
+                                ];
+                            })
                             ->columnSpanFull(),
                     ]),
                 Section::make('إعدادات البريد الإلكتروني')

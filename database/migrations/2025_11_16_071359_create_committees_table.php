@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('establishment_decision_file')->nullable();
             $table->date('start_date');
             $table->date('end_date');
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

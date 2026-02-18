@@ -49,6 +49,14 @@ class CommitteeMembersRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.roles.name')
                     ->label('الدور')
+                    ->formatStateUsing(function ($state): string {
+                        if (is_iterable($state) && !is_string($state)) {
+                            return collect($state)->map(fn ($n) => __("roles.{$n}"))->implode(', ');
+                        }
+                        $key = "roles.{$state}";
+                        $t = __($key);
+                        return $t === $key ? (string) ($state ?? '') : $t;
+                    })
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

@@ -15,15 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // بيانات تشغيل النظام فقط (أدوار، صلاحيات، مستخدم افتراضي، إعدادات، أنواع لجان، مدن)
         $this->call([
             RolePermissionSeeder::class,
             CommitteeTypeSeeder::class,
             UserSeeder::class,
             CommitteeSeeder::class,
-            CompanySeeder::class,
-            QualificationRequestSeeder::class,
-            FaqSeeder::class,
             SettingSeeder::class,
+            CitySeeder::class,
+            CompanyActivitySeeder::class,
+            RejectionReasonSeeder::class,
+            FaqSeeder::class
         ]);
     }
 }

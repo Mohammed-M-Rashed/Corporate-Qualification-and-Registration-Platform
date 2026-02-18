@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LegalDocument;
 use App\Models\TechnicalDocument;
 use App\Models\FinancialDocument;
+use App\Models\QualificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +13,37 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DocumentViewController extends Controller
 {
+    /**
+     * عرض ملف وكالة الشركة لطلب التأهيل
+     */
+    public function viewAgentDocument(QualificationRequest $qualificationRequest)
+    {
+        Gate::authorize('view', $qualificationRequest);
+
+        $company = $qualificationRequest->company;
+        if (!$company || !$company->is_agent || !$company->agent_document_path) {
+            abort(404, 'ملف الوكالة غير موجود');
+        }
+
+        $path = str_replace('\\', '/', $company->agent_document_path);
+        if (!Storage::disk('public')->exists($path)) {
+            abort(404, 'الملف غير موجود');
+        }
+
+        $filePath = Storage::disk('public')->path($path);
+        if (!is_file($filePath)) {
+            abort(404, 'الملف غير موجود');
+        }
+
+        $mimeType = mime_content_type($filePath) ?: 'application/pdf';
+        $fileName = basename($path);
+
+        return response()->file($filePath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . $fileName . '"',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    }
     /**
      * View a legal document
      */

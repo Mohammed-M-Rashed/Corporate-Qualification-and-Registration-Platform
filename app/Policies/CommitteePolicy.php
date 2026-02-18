@@ -29,16 +29,16 @@ class CommitteePolicy
 
     public function delete(User $user, Committee $committee): bool
     {
-        return $user->hasPermissionTo('delete committees');
+        return false; // اللجان لا تُحذف؛ استخدم التفعيل/إلغاء التفعيل فقط
     }
 
     public function restore(User $user, Committee $committee): bool
     {
-        return $user->hasPermissionTo('delete committees');
+        return false;
     }
 
     public function forceDelete(User $user, Committee $committee): bool
     {
-        return $user->hasPermissionTo('delete committees');
+        return false;
     }
 }

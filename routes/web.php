@@ -6,7 +6,12 @@ use App\Http\Controllers\RequestInquiryController;
 use App\Http\Controllers\FaqController;
 
 Route::get('/', function () {
-    return view('landing');
+    $stats = [
+        'companies_count' => \App\Models\Company::count(),
+        'requests_count' => \App\Models\QualificationRequest::count(),
+        'approved_count' => \App\Models\QualificationRequest::where('status', 'approved')->count(),
+    ];
+    return view('landing', compact('stats'));
 })->name('home');
 
 Route::get('/register', function () {
@@ -54,4 +59,7 @@ Route::middleware('auth')->group(function () {
         ->name('documents.financial.view');
     Route::get('/documents/financial/{document}/download', [\App\Http\Controllers\DocumentViewController::class, 'downloadFinancialDocument'])
         ->name('documents.financial.download');
+
+    Route::get('/qualification-request/{qualificationRequest}/agent-document', [\App\Http\Controllers\DocumentViewController::class, 'viewAgentDocument'])
+        ->name('qualification-request.agent-document');
 });

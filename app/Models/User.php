@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
@@ -25,7 +26,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'work_document',
         'committee_id',
         'member_type',
     ];
@@ -57,6 +57,13 @@ class User extends Authenticatable
     public function committee(): BelongsTo
     {
         return $this->belongsTo(Committee::class);
+    }
+
+    /** اللجان التي ينتمي إليها المستخدم كعضو (عبر committee_members) */
+    public function committees(): BelongsToMany
+    {
+        return $this->belongsToMany(Committee::class, 'committee_members')
+            ->withTimestamps();
     }
 
     public function requestActions(): HasMany

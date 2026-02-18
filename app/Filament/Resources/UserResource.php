@@ -55,6 +55,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('roles')
                     ->label('الأدوار')
                     ->relationship('roles', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => __("roles.{$record->name}"))
                     ->multiple()
                     ->preload()
                     ->live()
@@ -71,24 +72,26 @@ class UserResource extends Resource
                         MemberType::Technical->value => 'عضو فني',
                         MemberType::Financial->value => 'عضو مالي',
                     ])
-                    ->visible(function (callable $get) {
+                    ->searchable()
+                    ->preload()
+                    ->visible(function (callable $get): bool {
                         $roles = $get('roles');
-                        return is_array($roles) && in_array('Committee Member', $roles);
+                        if (!is_array($roles) || empty($roles)) {
+                            return false;
+                        }
+                        $committeeMemberId = Role::where('name', 'Committee Member')->first()?->id;
+                        return $committeeMemberId && in_array($committeeMemberId, $roles);
                     })
-                    ->required(function (callable $get) {
+                    ->required(function (callable $get): bool {
                         $roles = $get('roles');
-                        return is_array($roles) && in_array('Committee Member', $roles);
+                        if (!is_array($roles) || empty($roles)) {
+                            return false;
+                        }
+                        $committeeMemberId = Role::where('name', 'Committee Member')->first()?->id;
+                        return $committeeMemberId && in_array($committeeMemberId, $roles);
                     })
-                    ->helperText('اختر التخصص الخاص بالعضو (قانوني، فني، أو مالي)')
+                    ->helperText('اختر دور عضو اللجنة أولاً. التخصص: قانوني، فني، أو مالي')
                     ->columnSpanFull(),
-                Forms\Components\Select::make('committee_id')
-                    ->label('اللجنة')
-                    ->relationship('committee', 'name')
-                    ->searchable(),
-                Forms\Components\FileUpload::make('work_document')
-                    ->label('مستند العمل')
-                    ->acceptedFileTypes(['application/pdf'])
-                    ->directory('work_documents'),
             ]);
     }
 
@@ -106,6 +109,14 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('roles.name')
                     ->label('الأدوار')
+                    ->formatStateUsing(function ($state): string {
+                        if (is_iterable($state) && !is_string($state)) {
+                            return collect($state)->map(fn ($n) => __("roles.{$n}"))->implode(', ');
+                        }
+                        $key = "roles.{$state}";
+                        $t = __($key);
+                        return $t === $key ? (string) ($state ?? '') : $t;
+                    })
                     ->badge(),
                 Tables\Columns\TextColumn::make('member_type')
                     ->label('نوع العضو')
@@ -123,19 +134,38 @@ class UserResource extends Resource
                         default => '-',
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('committee.name')
+                Tables\Columns\TextColumn::make('committees.name')
                     ->label('اللجنة')
-                    ->sortable(),
+                    ->formatStateUsing(fn ($state): string => is_iterable($state)
+                        ? collect($state)->implode(', ')
+                        : (string) ($state ?? '—')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تاريخ الإنشاء')
                     ->dateTime()
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('committee_id')
+                Tables\Filters\SelectFilter::make('committee')
                     ->label('اللجنة')
-                    ->relationship('committee', 'name')
-                    ->searchable(),
+                    ->relationship('committees', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->query(fn ($query, array $data) => !empty($data['committee'])
+                        ? $query->whereHas('committees', fn ($q) => $q->where('committees.id', $data['committee']))
+                        : $query),
+                Tables\Filters\SelectFilter::make('role')
+                    ->label('الدور')
+                    ->relationship('roles', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->getOptionLabelFromRecordUsing(fn ($record) => __("roles.{$record->name}")),
+                Tables\Filters\SelectFilter::make('member_type')
+                    ->label('نوع العضو')
+                    ->options([
+                        MemberType::Legal->value => 'عضو قانوني',
+                        MemberType::Technical->value => 'عضو فني',
+                        MemberType::Financial->value => 'عضو مالي',
+                    ]),
             ])
             ->headerActions([
                 CreateAction::make()

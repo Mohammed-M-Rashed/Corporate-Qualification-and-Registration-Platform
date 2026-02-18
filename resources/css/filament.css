@@ -152,7 +152,7 @@ body {
     justify-content: center;
 }
 
-/* Fix filter dropdowns */
+/* Fix filter dropdowns + تنسيق صندوق الفلاتر */
 .fi-ta-filters-trigger {
     direction: rtl !important;
 }
@@ -160,6 +160,101 @@ body {
 .fi-dropdown-panel {
     direction: rtl !important;
     text-align: right !important;
+    /* توسيع عرض قوائم الاختيار لظهور الخيارات */
+    min-width: 18rem !important;
+    max-width: 26rem !important;
+}
+
+/* صندوق خيارات الفلاتر (مثل نوع اللجنة) = نفس عرض بوكس الفلاتر */
+.fi-dropdown-panel:has(.fi-dropdown-list) {
+    min-width: 340px !important;
+    max-width: 520px !important;
+    width: max-content !important;
+}
+
+/* صندوق الفلاتر (القائمة المنسدلة) - عرض أكبر لظهور الخيارات */
+.fi-ta-filters-dropdown {
+    min-width: 340px;
+    max-width: 520px;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.fi-ta-filters-dropdown .fi-ta-filters {
+    padding: 1.25rem 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    direction: rtl;
+    width: 100%;
+}
+
+.fi-ta-filters-dropdown .fi-ta-filters-header {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.fi-ta-filters-dropdown .fi-ta-filters-heading {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.fi-ta-filters-dropdown .fi-ta-filters-apply-action-ctn {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* الفلاتر عند عرضها فوق الجدول (مفتوحة) */
+.fi-ta-filters-above-content-ctn {
+    border-radius: 0.5rem;
+    margin: 0 1rem 0 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    background: rgba(249, 250, 251, 0.8) !important;
+    direction: rtl;
+}
+
+.fi-ta-filters-above-content-ctn.fi-open .fi-ta-filters {
+    padding: 1rem 1.5rem !important;
+    gap: 1rem !important;
+}
+
+.fi-ta-filters-above-content-ctn .fi-ta-filters-header {
+    flex-direction: row-reverse;
+}
+
+/* شريط مؤشرات الفلاتر النشطة (الشارات) */
+.fi-ta-filter-indicators {
+    direction: rtl;
+    flex-direction: row-reverse;
+    border-radius: 0.5rem;
+    margin: 0 1rem 0.25rem 1rem;
+    padding: 0.75rem 1rem !important;
+}
+
+.fi-ta-filter-indicators .fi-ta-filter-indicators-label {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.fi-ta-filter-indicators-badges-ctn {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+/* عناصر قائمة الـ dropdown (الخيارات) - وضوح النص */
+.fi-dropdown-list {
+    min-width: 100%;
+}
+.fi-dropdown-list-item-label {
+    white-space: normal;
+    word-break: break-word;
 }
 
 /* Fix Switch/Toggle buttons */
@@ -177,13 +272,46 @@ body {
 
 /* Fix table filters visibility */
 .fi-ta-filters {
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: grid !important;
+    gap: 0.75rem 1rem;
 }
 
 .fi-ta-filters-trigger {
     display: inline-flex !important;
+}
+
+/* حقول الفلاتر: تأخذ عرض البوكس بالكامل */
+.fi-ta-filters .fi-fo-field-wrp {
+    width: 100% !important;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* جميع الحقول داخل الفلاتر تأخذ العرض الكامل */
+.fi-ta-filters .fi-fo-field-wrp > div,
+.fi-ta-filters .fi-input-wrp,
+.fi-ta-filters .fi-fo-select,
+.fi-ta-filters .fi-fo-select-input,
+.fi-ta-filters .fi-select-input,
+.fi-ta-filters .fi-input,
+.fi-ta-filters input,
+.fi-ta-filters select,
+.fi-ta-filters textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* حاويات الحقول */
+.fi-ta-filters-dropdown .fi-ta-filters .fi-fo-field-wrp,
+.fi-ta-filters-above-content-ctn .fi-ta-filters .fi-fo-field-wrp {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* الحقول في صف واحد - كل حقل يأخذ العرض الكامل */
+.fi-ta-filters-dropdown .fi-ta-filters {
+    flex-direction: column !important;
 }
 
 /* Fix pagination icon position */
@@ -197,5 +325,300 @@ body {
     border: 2px solid #d1d5db !important;
     border-radius: 0.5rem !important;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Loading overlay box (shimmer + GIF) */
+.fi-loading-box-container {
+    position: relative;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    min-width: 160px;
+}
+
+.fi-loading-box-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: fi-loading-shimmer 1.5s infinite;
+}
+
+@keyframes fi-loading-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.fi-loading-box-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fi-loading-box-gif {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
+.fi-loading-box-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #1e40af;
+    border-radius: 50%;
+    animation: fi-loading-spin 0.8s linear infinite;
+}
+
+@keyframes fi-loading-spin {
+    to { transform: rotate(360deg); }
+}
+
+.fi-loading-box-text {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* ============================================
+   8. إزالة البوكس الأبيض (حقل البحث) - الإبقاء على أيقونة الفلتر فقط
+   ============================================ */
+
+/* إخفاء حقل البحث النصي فقط - بشكل محدد جداً */
+.fi-ta-search-field {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+}
+
+/* إخفاء input البحث فقط */
+.fi-ta-search-field input[type="search"],
+.fi-ta-search-field .fi-input,
+.fi-ta-search-field .fi-input-wrp,
+.fi-ta-search-field .fi-input-wrapper {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    visibility: hidden !important;
+}
+
+/* التأكد من ظهور أيقونة الفلتر */
+.fi-ta-filters-trigger {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    clip: unset !important;
+    clip-path: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* تحسين مظهر أيقونة الفلتر فقط */
+.fi-ta-header-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    overflow: visible !important;
+    flex-direction: row-reverse;
+}
+
+/* وضع أيقونة الفلتر في يسار الـ div (الجانب الأيمن في RTL) */
+.fi-ta-header-toolbar > div:has(.fi-dropdown.fi-ta-filters-dropdown),
+.fi-ta-header-toolbar > *:has(.fi-dropdown.fi-ta-filters-dropdown) {
+    order: -1 !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+/* التأكد من أن حاوية الفلتر لا تقطع الأيقونة */
+.fi-ta-header-toolbar > :has(.fi-ta-filters-trigger),
+.fi-ta-header-toolbar > *:has(.fi-ta-filters-trigger),
+.fi-ta-filters-trigger-action-ctn {
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: auto !important;
+}
+
+/* التأكد من أن جميع الحاويات تسمح بالظهور الكامل */
+.fi-ta-ctn,
+.fi-ta-header-ctn,
+.fi-ta-header {
+    overflow: visible !important;
+}
+
+/* حاوية الأيقونة نفسها */
+.fi-ta-filters-trigger-action-ctn {
+    display: flex !important;
+    align-items: center !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 3rem !important;
+}
+
+/* عنصر .fi-dropdown-trigger داخل الفلاتر - ارتفاع أعلى وحجم مناسب للأيقونة */
+.fi-ta-header-toolbar .fi-dropdown-trigger,
+.fi-ta-filters-trigger-action-ctn .fi-dropdown-trigger,
+.fi-dropdown.fi-ta-filters-dropdown .fi-dropdown-trigger {
+    height: auto !important;
+    min-height: 2.75rem !important;
+    max-height: none !important;
+    padding: 0.625rem 0.75rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    position: relative !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    line-height: normal !important;
+    order: 21 !important;
+}
+
+/* التأكد من أن الحاوية تستخدم flexbox للسماح بـ order */
+.fi-dropdown.fi-ta-filters-dropdown {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* ترتيب العناصر داخل dropdown الفلاتر */
+.fi-dropdown.fi-ta-filters-dropdown > .fi-dropdown-trigger {
+    order: 21 !important;
+}
+
+.fi-dropdown.fi-ta-filters-dropdown > .fi-dropdown-panel {
+    order: 0 !important;
+}
+
+/* التأكد من أن الأيقونة داخل .fi-dropdown-trigger تظهر بالكامل */
+.fi-dropdown-trigger svg,
+.fi-dropdown-trigger .fi-icon,
+.fi-dropdown-trigger [class*="icon"] {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    min-width: 1.25rem !important;
+    min-height: 1.25rem !important;
+    max-width: 1.25rem !important;
+    max-height: 1.25rem !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
+}
+
+/* أيقونة الفلتر - تصميم راقي بدون بوكس */
+.fi-ta-filters-trigger {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.625rem 2rem !important;
+    min-height: 5rem !important;
+    height: auto !important;
+    max-height: none !important;
+    border-radius: 0.5rem;
+    background: transparent !important;
+    border: none !important;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    box-shadow: none !important;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    overflow: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    line-height: normal !important;
+    vertical-align: middle !important;
+}
+
+.fi-ta-filters-trigger:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #374151;
+    transform: translateY(-1px);
+}
+
+.fi-ta-filters-trigger:active {
+    transform: translateY(0);
+    background: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* أيقونة الفلتر داخل الزر - حجم أكبر قليلاً */
+.fi-ta-filters-trigger svg,
+.fi-ta-filters-trigger .fi-icon,
+.fi-ta-filters-trigger [class*="icon"],
+.fi-ta-filters-trigger > svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    min-width: 1.25rem !important;
+    min-height: 1.25rem !important;
+    max-width: 1.25rem !important;
+    max-height: 1.25rem !important;
+    margin-left: 0.5rem;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    position: relative !important;
+    z-index: 11 !important;
+}
+
+/* Badge العدد على أيقونة الفلتر */
+.fi-ta-filters-trigger .fi-badge {
+    margin-right: 0.5rem;
+    background: #3b82f6;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+}
+
+/* إزالة الأيقونة من زر "إضافة" في صفحة إنشاء اللجنة */
+.fi-resource-create-record-page button#key-bindings-1 svg,
+.fi-resource-create-record-page button[wire\\:target="create"] svg,
+.fi-resource-create-record-page button[type="submit"][id*="key-bindings"] svg {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* إزالة زر "إضافة وبدء إضافة المزيد" */
+.fi-resource-create-record-page button#key-bindings-2,
+.fi-resource-create-record-page button[wire\\:target="createAnother"],
+.fi-resource-create-record-page button[wire\\:click="createAnother"],
+.fi-resource-create-record-page button[id*="key-bindings"][wire\\:click="createAnother"] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 

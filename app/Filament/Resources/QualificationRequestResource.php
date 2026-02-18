@@ -105,6 +105,24 @@ class QualificationRequestResource extends Resource
                             ->default(fn ($record) => $record?->company?->commercial_register_end_date)
                             ->disabled()
                             ->dehydrated(false),
+                        Forms\Components\Placeholder::make('company_agent_document')
+                            ->label('ملف الوكالة')
+                            ->content(function ($record) {
+                                $company = $record?->company;
+                                if (!$company || !$company->is_agent || !$company->agent_document_path) {
+                                    return new \Illuminate\Support\HtmlString('<span class="text-gray-500">— لا يوجد</span>');
+                                }
+                                $url = route('qualification-request.agent-document', ['qualificationRequest' => $record->id]);
+                                $name = basename(str_replace('\\', '/', $company->agent_document_path));
+                                return new \Illuminate\Support\HtmlString(
+                                    '<a href="' . e($url) . '" target="_blank" rel="noopener" class="text-primary-600 hover:underline inline-flex items-center gap-1">' .
+                                    '<svg style="width:12px;height:12px;vertical-align:middle;display:inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>' .
+                                    e($name) . ' (PDF)' .
+                                    '</a>'
+                                );
+                            })
+                            ->visible(fn ($record) => $record && $record->company)
+                            ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->visible(fn ($record) => $record && $record->company),
@@ -467,13 +485,27 @@ class QualificationRequestResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('company_id')
+                    ->label('الشركة')
+                    ->relationship('company', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->visible(fn () => $isAdmin),
+                Tables\Filters\SelectFilter::make('current_review_stage')
+                    ->label('المرحلة الحالية')
+                    ->options([
+                        ReviewStage::Legal->value => 'قانوني',
+                        ReviewStage::Technical->value => 'فني',
+                        ReviewStage::Financial->value => 'مالي',
+                        ReviewStage::Chairman->value => 'رئيس اللجنة',
+                        ReviewStage::Completed->value => 'مكتمل',
+                    ]),
                 Tables\Filters\SelectFilter::make('status')
                     ->label('الحالة')
                     ->options(function () use ($isAdmin, $isChairman, $isCommitteeMember) {
                         $options = [];
                         
                         if ($isAdmin) {
-                            // Admin يرى جميع الحالات
                             $options = [
                                 QualificationRequestStatus::New->value => 'جديد',
                                 QualificationRequestStatus::UnderReview->value => 'قيد المراجعة',
@@ -481,14 +513,12 @@ class QualificationRequestResource extends Resource
                                 QualificationRequestStatus::Rejected->value => 'مرفوض',
                             ];
                         } elseif ($isChairman) {
-                            // رئيس اللجنة: يرى المقبولة مبدئياً، المقبولة نهائياً، والمرفوضة
                             $options = [
                                 QualificationRequestStatus::UnderReview->value => 'قيد المراجعة',
                                 QualificationRequestStatus::Approved->value => 'مقبول',
                                 QualificationRequestStatus::Rejected->value => 'مرفوض',
                             ];
                         } elseif ($isCommitteeMember) {
-                            // عضو اللجنة: يرى الجديدة، المرفوضة، والمقبولة مبدئياً
                             $options = [
                                 QualificationRequestStatus::New->value => 'جديد',
                                 QualificationRequestStatus::Rejected->value => 'مرفوض',

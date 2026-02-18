@@ -146,6 +146,13 @@ class CompanyResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('city_id')
+                    ->label('المدينة')
+                    ->relationship('city', 'name')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\TernaryFilter::make('is_agent')
+                    ->label('وكيل معتمد'),
                 Tables\Filters\TernaryFilter::make('is_qualified')
                     ->label('مؤهلة'),
                 Tables\Filters\TernaryFilter::make('is_active')

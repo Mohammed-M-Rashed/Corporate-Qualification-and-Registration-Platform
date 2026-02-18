@@ -60,6 +60,14 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 'panels::head.end',
                 fn (): View => view('filament.hooks.styles')
+            )
+            ->renderHook(
+                'panels::body.end',
+                function (): View {
+                    $gifPath = \App\Models\Setting::where('key', 'loading_gif')->value('value');
+                    $gifUrl = $gifPath ? asset($gifPath) : null;
+                    return view('filament.hooks.loading-overlay', ['gifUrl' => $gifUrl]);
+                }
             );
     }
 }

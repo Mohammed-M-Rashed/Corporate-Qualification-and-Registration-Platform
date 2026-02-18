@@ -251,7 +251,7 @@ class CompanyRegistrationController extends Controller
             ];
 
             // Always validate step1 data, especially uniqueness checks
-            $step1Validator = Validator::make($step1, [
+            $step1Rules = [
                 'name' => 'required|string|max:255',
                 'activity_id' => 'required|exists:company_activities,id',
                 'city_id' => 'required|exists:cities,id',
@@ -259,9 +259,27 @@ class CompanyRegistrationController extends Controller
                 'phone' => ['required', new LibyanPhoneNumber()],
                 'address' => 'required|string',
                 'is_agent' => 'nullable|boolean',
-                'agent_document_file' => 'required_if:is_agent,true|file|mimes:pdf|max:10240',
-            ]);
-            
+            ];
+
+            $isAgent = !empty($step1['is_agent']);
+            $agentDoc = $step1['agent_document_file'] ?? null;
+            $agentDocFromSession = is_array($agentDoc) && isset($agentDoc['path']);
+
+            if ($isAgent) {
+                if ($agentDocFromSession) {
+                    $step1Rules['agent_document_file'] = 'required|array';
+                    $step1Rules['agent_document_file.path'] = 'required|string';
+                } elseif ($agentDoc instanceof \Illuminate\Http\UploadedFile) {
+                    $step1Rules['agent_document_file'] = 'required|file|mimes:pdf|max:10240';
+                } else {
+                    $step1Rules['agent_document_file'] = 'required';
+                }
+            } else {
+                $step1Rules['agent_document_file'] = 'nullable';
+            }
+
+            $step1Validator = Validator::make($step1, $step1Rules);
+
             if ($step1Validator->fails()) {
                 // Format errors for frontend
                 $errors = [];
